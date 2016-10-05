@@ -13,8 +13,8 @@ module.exports = function (config) {
             'public/js/**/*.js',
             'test/unit/**/*.js'
         ],
-        autoWatch : true,
-        singleRun : false,
+        autoWatch : false,
+        singleRun : true,
         browsers  : ['Chrome', 'Firefox']
     });
 };

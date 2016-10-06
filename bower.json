@@ -1,0 +1,19 @@
+{
+  "name": "kreios.todo",
+  "version": "0.1",
+  "main": "index.html",
+  "ignore": [
+    "**/.*",
+    "libs2"
+  ],
+  "dependencies": {
+    "angular": "latest",
+    "angular-mocks": "latest",
+    "angular-resource": "latest",
+    "angular-route": "latest",
+    "jquery": "latest",
+    "bootstrap": "latest",
+    "requirejs": "latest",
+    "requirejs-domready": "latest"
+  }
+}

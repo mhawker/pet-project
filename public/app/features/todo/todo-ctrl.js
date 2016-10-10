@@ -21,6 +21,7 @@
                 $scope.remainingCount = $filter("filter")(todos, {completed: false}).length;
                 $scope.completedCount = todos.length - $scope.remainingCount;
                 $scope.allChecked = !$scope.remainingCount;
+                $scope.list_id = $routeParams.list_id;
             }, true);
 
             // Monitor the current route for changes and adjust the filter accordingly.

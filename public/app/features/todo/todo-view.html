@@ -61,13 +61,13 @@
 		</span>
         <ul id="filters">
             <li>
-                <a ng-class="{selected: status == ''} " href="#/">All</a>
+                <a ng-class="{selected: status == ''} " href="#/todo/{{list_id}}">All</a>
             </li>
             <li>
-                <a ng-class="{selected: status == 'active'}" href="#/active">Active</a>
+                <a ng-class="{selected: status == 'active'}" href="#/todo/{{list_id}}/active">Active</a>
             </li>
             <li>
-                <a ng-class="{selected: status == 'completed'}" href="#/completed">Completed</a>
+                <a ng-class="{selected: status == 'completed'}" href="#/todo/{{list_id}}/completed">Completed</a>
             </li>
         </ul>
         <button id="clear-completed" ng-click="clearCompletedTodos()" ng-show="completedCount">Clear completed</button>

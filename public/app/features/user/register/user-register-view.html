@@ -1,0 +1,36 @@
+<!-- bad, but I don't have time to inject it properly right now -->
+<link rel="stylesheet" href="/app/features/user/user-style.css">
+<section id="todoapp" class="app-screen">
+    <header id="header" class="view-header">
+        <h1>kreios&nbsp;todo</h1>
+    </header>
+    <section id="main">
+        <form ng-submit="submitForm()">
+            <h3>Register to manage TODOs</h3>
+            <p>
+                <label for="username">Pick a Username</label>
+                <input
+                    class="edit"
+                    type="text"
+                    name="username"
+                    ng-model="user.username"
+                >
+            </p>
+            <p>
+                <label for="password">Set a password</label>
+                <input
+                    class="edit"
+                    type="password"
+                    name="password"
+                    ng-model="user.password"
+                >
+            </p>
+            <p id="feedback">&nbsp;</p>
+            <p><input type="submit" value="Create account"></p>
+    </section>
+    <footer id="footer" ng-show="todos.length" ng-cloak>
+    </footer>
+</section>
+
+
+

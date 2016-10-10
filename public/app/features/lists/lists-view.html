@@ -1,0 +1,52 @@
+<!-- bad, but I don't have time to inject it properly right now -->
+<link rel="stylesheet" href="/app/features/lists/lists-style.css">
+<section id="todoapp" class="app-screen">
+    <header id="header" class="view-header">
+        <h1>todo lists</h1>
+        <form
+            id="lists-form"
+            ng-submit="addList()"
+        >
+            <input
+                id="new-list"
+                class="new"
+                placeholder="Create a new TODO list"
+                ng-model="newList"
+                ng-disabled="saving"
+                autofocus
+            >
+        </form>
+    </header>
+    <section id="main" ng-show="lists.length" ng-cloak>
+        <ul id="todo-list">
+            <li ng-repeat="list in lists track by $index">
+                <div class="view">
+                    <a class="view-list" href="#/todo/{{list.id}}">View</a>
+                    <label ng-dblclick="editList(list)">{{list.title}}</label>
+                    <button
+                        class="destroy"
+                        ng-click="removeList(list)"
+                    ></button>
+                </div>
+                <form ng-submit="saveEdits(list, 'submit')">
+                    <input
+                        class="edit"
+                        ng-trim="false"
+                        ng-model="list.title"
+                        todo-escape="revertEdits(list)"
+                        ng-blur="saveEdits(list, 'blur')"
+                        todo-focus="list == editedList"
+                    >
+                </form>
+            </li>
+        </ul>
+    </section>
+    <footer id="footer" ng-show="lists.length" ng-cloak>
+    </footer>
+</section>
+
+<footer class="info">
+    <p>Double-click to edit a list title</p>
+</footer>
+
+

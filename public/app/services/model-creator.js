@@ -149,6 +149,8 @@
 
         };
 
+        // NOTE: as this module depends on $q and resourceCreator, it cannot be
+        // directly returned to RequireJS
         return app.factory("modelCreator", function ($q, resourceCreator) {
             var deferred = $q.defer();
             resourceCreator.then(function (create_resource) {

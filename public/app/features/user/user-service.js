@@ -6,35 +6,19 @@
  * appropriate screens.
  *
  * NOTE: this currently has zero authentication, it just checks  if the user
- * exists and authenticates them if so. The server needs to enforce access
- * control.
+ * exists and authorizes them if so. The server needs to enforce access
+ * control on various lists/to do items.
  */
 (function (define) {
     "use strict";
     define([
         "angular",
         "app",
-        "app/services/menu.js",
         "app/services/current-user.js",
-        "app/services/model-creator.js",
-    ], function (angular, app, menu, current_user) {
+        "app/services/model-creator.js"
+    ], function (angular, app) {
 
-        // hook into the global nav menu
-        app.run(function ($rootScope, $location, $route) {
-
-            $rootScope.$on("$routeChangeStart", function () {
-                var c_u = current_user.fetch();
-                if (c_u.id) {
-                    menu.add('dashboard', '/user/dashboard', 'Hello ' + c_u.username);
-                    menu.add('logout', '/user/logout', 'Log out');
-                } else {
-                    menu.del('dashboard');
-                    menu.del('logout');
-                };
-            });
-        });
-
-        return app.factory("userService", function ($q, modelCreator) {
+        return app.factory("userService", function ($q, modelCreator, currentUserService) {
 
             var deferred = $q.defer();
 
@@ -47,14 +31,14 @@
 
                 user_model.loadCurrent = function () {
                     var records = user_model.getRecords();
-                    var record = current_user.fetch();
+                    var record = currentUserService.fetch();
                     angular.copy([], records);
                     records.push(record);
                     return record;
                 };
 
                 user_model.setCurrent = function (user) {
-                    current_user.persist(user);
+                    currentUserService.persist(user);
                     user_model.loadCurrent();
                 };
 
@@ -90,10 +74,10 @@
                         if (response.length === 1) {
                             user = response.shift();
                         }
-                        current_user.persist(user);
+                        currentUserService.persist(user);
                         return user;
                     }, function () {
-                        current_user.persist({});
+                        currentUserService.persist({});
                         return {};
                     });
                 };
@@ -106,7 +90,7 @@
                  * @param string password the submitted password
                  */
                 user_model.create = function (username, password) {
-                    return user_model.checkUsername(username).then(function (exists) {
+                    return user_model.checkUsername(username).then(function () {
                         var api = user_model.getApi();
                         return api.save({
                             username: username,
@@ -114,7 +98,7 @@
                         }).then(function (response) {
                             return response;
                         });
-                    })
+                    });
                 };
 
                 deferred.resolve(user_model);

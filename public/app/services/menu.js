@@ -4,32 +4,87 @@
 /**
  * Add/Remove links to the top menu
  */
-(function (define) {
+(function (define, document) {
     "use strict";
 
     define([
-        "angular"
-    ], function (angular) {
+        "app"
+    ], function (app) {
 
-        return {
-            add: function (id, url, text) {
-                id = "menu-" + id;
-                if (document.getElementById(id)) {
-                    return;
-                }
-                var a = document.createElement('a');
-                a.href = '#' + url;
-                a.id = id;
-                a.text = text;
-                document.getElementById('site-nav').appendChild(a);
-            },
-            del: function (id) {
-                id = "menu-" + id;
-                var a = document.getElementById(id);
-                if (a) {
-                    a.parentNode.removeChild(a);
-                }
+        /** @var string the id attribute of the breadcrumb */
+        var breadcrumb_id = "site-breadcrumb";
+
+        /**
+         * Remove the 'hidden' bootstrap class from an element. Avoids having to
+         * call in jqlite.
+         *
+         * @param DOMElement the element to show
+         */
+        function show(element) {
+            var classes = element.className.split(" ");
+            var hidx = classes.indexOf("hidden");
+            if (hidx > -1) {
+                classes.splice(hidx, 1);
+                element.className = classes.join(" ");
             }
+        }
+
+        /**
+         * Add the 'hidden' bootstrap class from an element. Avoids having to
+         * call in jqlite.
+         *
+         * @param DOMElement the element to hide
+         */
+        function hide(element) {
+            var classes = element.className.split(" ");
+            var hidx = classes.indexOf("hidden");
+            if (hidx < 0) {
+                classes.push("hidden");
+                element.className = classes.join(" ");
+            }
+        }
+
+        /**
+         * Set the content of the breadcrumbs
+         *
+         * @param array the elements, each an object with url and text
+         * @return void
+         */
+        function breadcrumb(links) {
+            var bc = document.getElementById(breadcrumb_id);
+            while (bc.firstChild) {
+                bc.removeChild(bc.firstChild);
+            }
+            if (links.length === 0) {
+                hide(bc);
+                return;
+            }
+            var li;
+            var a;
+            links.map(function (link) {
+                li = document.createElement("li");
+                a = document.createElement("a");
+                a.href = "#" + link.url;
+                a.text = link.text;
+                li.appendChild(a);
+                bc.appendChild(li);
+            });
+            li.className = "active";
+            li.innerHTML = a.text;
+            show(bc);
+        }
+
+        /** @var object the module */
+        var service = {
+            breadcrumb: breadcrumb
         };
+
+        // register with angular
+        app.factory("menuService", function () {
+            return service;
+        });
+
+        // return to requirejs
+        return service;
     });
-}(window.define));
+}(window.define, window.document));

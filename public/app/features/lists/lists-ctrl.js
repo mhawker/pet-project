@@ -10,10 +10,17 @@
     "use strict";
     define([
         "angular",
-        "app"
+        "app",
+        "/app/services/menu.js"
     ], function (angular, app) {
-        app.controller("ListsCtrl", function ($scope, $routeParams, $filter, store) {
+        app.controller("ListsCtrl", function ($scope, $routeParams, $filter, store, menuService) {
+            menuService.breadcrumb([
+                {url: "/", text: "Home"},
+                {url: "/lists", text: "My TODO lists"}
+            ]);
+
             var lists = $scope.lists = store.getRecords();
+
             $scope.newList = "";
             $scope.editedList = null;
 
@@ -23,31 +30,14 @@
                 $scope.allChecked = !$scope.remainingCount;
             }, true);
 
-            // Monitor the current route for changes and adjust the filter accordingly.
-            $scope.$on("$routeChangeSuccess", function () {
-                var status = $scope.status = $routeParams.status || "";
-
-                if (status === "active") {
-                    $scope.statusFilter = {completed: false};
-                }
-                else if (status === "completed") {
-                    $scope.statusFilter = {completed: true};
-                }
-                else {
-                    $scope.statusFilter = {};
-                }
-            });
-
             $scope.addList = function () {
                 var newList = {
                     title    : $scope.newList.trim(),
                     completed: false
                 };
-
                 if (!newList.title) {
                     return;
                 }
-
                 $scope.saving = true;
                 store.create(newList)
                     .then(function success() {
@@ -89,6 +79,7 @@
 
                 store[list.title ? "update" : "delete"](list)
                     .then(function success() {
+                        return undefined;
                     }, function error() {
                         list.title = $scope.originalList.title;
                     })
@@ -110,18 +101,6 @@
 
             $scope.saveList = function (list) {
                 store.update(list);
-            };
-
-            $scope.clearCompletedLists = function () {
-                store.clearCompleted();
-            };
-
-            $scope.markAll = function (completed) {
-                lists.forEach(function (list) {
-                    if (list.completed !== completed) {
-                        $scope.toggleCompleted(list, completed);
-                    }
-                });
             };
         });
     });

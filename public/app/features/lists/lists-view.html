@@ -2,7 +2,6 @@
 <link rel="stylesheet" href="/app/features/lists/lists-style.css">
 <section id="todoapp" class="app-screen">
     <header id="header" class="view-header">
-        <h1>todo lists</h1>
         <form
             id="lists-form"
             ng-submit="addList()"
@@ -19,9 +18,10 @@
     </header>
     <section id="main" ng-show="lists.length" ng-cloak>
         <ul id="todo-list">
-            <li ng-repeat="list in lists track by $index">
+            <li ng-repeat="list in lists track by $index"
+                ng-class="{editing: list == editedList}">
                 <div class="view">
-                    <a class="view-list" href="#/todo/{{list.id}}">View</a>
+                    <a class="view-list" href="#/todo/{{list.id}}"><i class="fa fa-edit"></i></a>
                     <label ng-dblclick="editList(list)">{{list.title}}</label>
                     <button
                         class="destroy"

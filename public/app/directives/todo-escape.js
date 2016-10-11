@@ -7,9 +7,7 @@
  */
 (function (define) {
     "use strict";
-    define([
-        "app"
-    ], function (app) {
+    define(["app"], function (app) {
         app.directive("todoEscape", function () {
 
             var ESCAPE_KEY = 27;

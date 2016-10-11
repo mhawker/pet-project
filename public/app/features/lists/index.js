@@ -2,7 +2,7 @@
 /*global window */
 
 /**
- * Load the todo-list feature
+ * Load the editable list of to-do's feature
  */
 (function (define) {
     "use strict";

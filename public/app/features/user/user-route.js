@@ -2,19 +2,19 @@
 /*global window */
 
 /**
- * The routes to an individual to-do list
+ * The routes to the various user screens
  */
 (function (define) {
     "use strict";
     define([
         "app",
-        "./user-service.js",
+        "./user-service.js"
     ], function (app) {
         return app.config(function ($routeProvider) {
             var resolve = {
                 store: function (userService) {
                     // Wait for the model to decide on its persistence
-                    // layer then load the entities in the background
+                    // layer then load the current user in the background
                     return userService.then(function (module) {
                         module.loadCurrent();
                         return module;

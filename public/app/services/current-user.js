@@ -2,13 +2,14 @@
 /*global window */
 
 /**
- * Add/Remove links to the top menu
+ * Service for getting/setting info about the currently logged in user
  */
 (function (define) {
     "use strict";
     define([
+        "angular",
         "app"
-    ], function (app) {
+    ], function (angular, app) {
 
         /** @var string the key in session storage used to track the user */
         var skey = "TODOMVC.user_login_status";
@@ -51,10 +52,17 @@
             });
         });
 
-        return {
+        /** @var object the complete module */
+        var service = {
             fetch: fetch,
             persist: persist
         };
 
+        // register with angular
+        app.factory("currentUserService", function () {
+            return service;
+        });
+        // return to requirejs
+        return service;
     });
 }(window.define));

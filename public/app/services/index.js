@@ -9,7 +9,8 @@
     define([
         "./model-creator.js",
         "./resource-creator.js",
-        "./menu.js"
+        "./menu.js",
+        "./current-user.js"
     ], function () {
         return undefined;
     });

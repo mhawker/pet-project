@@ -2,23 +2,17 @@
 /*global window */
 
 /**
- * The main controller for the todo feature. It does:
- * - retrieves and persists the model via the todoService service
- * - exposes the model to the template and provides event handlers
+ * The default controller, handles redirecting to an appropriate dashboard
  */
 (function (define) {
     "use strict";
-    define([
-        "angular",
-        "app",
-        "app/features/user/user-service.js"
-    ], function (angular, app, userService) {
+    define(["app"], function (app) {
         app.controller("IndexCtrl", function ($location, store) {
             var user = store.loadCurrent();
             if (user.id) {
-                $location.path('/todo');
+                $location.path("/user/dashboard");
             } else {
-                $location.path('/user/login');
+                $location.path("/user/login");
             }
         });
     });

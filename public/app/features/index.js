@@ -10,7 +10,7 @@
         "./index/index.js",
         "./user/index.js",
         "./lists/index.js",
-        "./todo/index.js"
+        "./todo/index.js" // must be last
     ], function () {
         return undefined;
     });

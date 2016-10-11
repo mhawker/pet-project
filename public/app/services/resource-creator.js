@@ -15,7 +15,9 @@
 
         return app.factory("resourceCreator", function ($http, $resource, $q) {
 
+            // check if the api is responding
             return $http.get("/api").then(function () {
+                // yes? then just return a quick compatability shim
                 return function (model_name) {
                     var resource = $resource("/api/" + model_name + "/:id", null, {
                         update: {method: "PUT"}
@@ -28,6 +30,7 @@
                     };
                 };
             }, function () {
+                // no? a faux api based on localstorage
                 return function (model_name) {
 
                     /** @var string the key for the table in local storage */

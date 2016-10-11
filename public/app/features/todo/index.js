@@ -2,7 +2,7 @@
 /*global window */
 
 /**
- * Load the todo-list feature
+ * Load the to-do feature
  */
 (function (define) {
     "use strict";

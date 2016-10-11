@@ -2,7 +2,7 @@
 /*global window */
 
 /**
- * The routes to an individual to-do list
+ * The routes for the default controller. Be sure to include it last.
  */
 (function (define) {
     "use strict";
@@ -22,7 +22,7 @@
                         });
                     }
                 }
-            });
+            }).otherwise({redirectTo: "/"});
         });
     });
 }(window.define));

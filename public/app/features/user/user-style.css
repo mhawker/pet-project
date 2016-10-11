@@ -1,9 +1,17 @@
+#header {
+    padding: 15px 20px;
+}
+
+#header h2 {
+    margin-top:0;
+}
+
 #main {
     padding:15px 20px;
 }
 
 #register {
-    float:right;
+    padding-top:10px;
 }
 
 #feedback {

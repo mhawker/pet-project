@@ -1,4 +1,4 @@
-/*jslint browser */
+/*jslint browser devel */
 /*global window */
 
 /**
@@ -12,16 +12,33 @@
         "angular",
         "app"
     ], function (angular, app) {
-        app.controller("TodoCtrl", function TodoCtrl($scope, $routeParams, $filter, store) {
+        app.controller("TodoCtrl", function TodoCtrl($scope, $routeParams, $filter, $location, store, listsService, menuService) {
             var todos = $scope.todos = store.getRecords();
+            var list_id = parseInt($routeParams.list_id, 10);
+
+            // set up breadcrumb
+            listsService.then(function (lists_model) {
+                lists_model.read({id: list_id}).then(function (response) {
+                    var list = response.shift();
+                    if (!list) {
+                        $location.path("/lists");
+                    }
+                    menuService.breadcrumb([
+                        {url: "/", text: "Home"},
+                        {url: "/lists", text: "My TODO lists"},
+                        {url: "", text: list.title}
+                    ]);
+                });
+            });
+
             $scope.newTodo = "";
             $scope.editedTodo = null;
+            $scope.list_id = list_id;
 
             $scope.$watch("todos", function () {
                 $scope.remainingCount = $filter("filter")(todos, {completed: false}).length;
                 $scope.completedCount = todos.length - $scope.remainingCount;
                 $scope.allChecked = !$scope.remainingCount;
-                $scope.list_id = $routeParams.list_id;
             }, true);
 
             // Monitor the current route for changes and adjust the filter accordingly.
@@ -30,18 +47,16 @@
 
                 if (status === "active") {
                     $scope.statusFilter = {completed: false};
-                }
-                else if (status === "completed") {
+                } else if (status === "completed") {
                     $scope.statusFilter = {completed: true};
-                }
-                else {
+                } else {
                     $scope.statusFilter = {};
                 }
             });
 
             $scope.addTodo = function () {
                 var newTodo = {
-                    title    : $scope.newTodo.trim(),
+                    title : $scope.newTodo.trim(),
                     completed: false
                 };
 
@@ -90,6 +105,7 @@
 
                 store[todo.title ? "update" : "delete"](todo)
                     .then(function success() {
+                        return undefined;
                     }, function error() {
                         todo.title = $scope.originalTodo.title;
                     })
@@ -119,6 +135,7 @@
                 }
                 store.update(todo)
                     .then(function success() {
+                        return undefined;
                     }, function error() {
                         todo.completed = !todo.completed;
                     });

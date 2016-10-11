@@ -2,19 +2,18 @@
 /*global window */
 
 /**
- * The main controller for the todo feature. It does:
- * - retrieves and persists the model via the todoService service
- * - exposes the model to the template and provides event handlers
+ * The user dashboard is currently very basic, it simply provides a link to the
+ * lists feature and a logout link.
  */
 (function (define) {
     "use strict";
-    define([
-        "angular",
-        "app"
-    ], function (angular, app) {
-
-        app.controller("UserDashboardCtrl", function ($scope, $location, store) {
-            // nothing to do now
+    define(["app"], function (app) {
+        app.controller("UserDashboardCtrl", function ($scope, currentUserService, menuService) {
+            menuService.breadcrumb([
+                {url: "/", text: "Home"},
+                {url: "/user/dashboard", text: "Dashboard"}
+            ]);
+            $scope.username = currentUserService.fetch().username;
         });
     });
 

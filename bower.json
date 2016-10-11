@@ -15,6 +15,7 @@
     "bootstrap": "3.3.7",
     "requirejs": "2.3.2",
     "requirejs-domready": "latest",
-    "domReady": "requirejs-domready#2.0.1"
+    "domReady": "requirejs-domready#2.0.1",
+    "font-awesome": "fontawesome#4.6.3"
   }
 }

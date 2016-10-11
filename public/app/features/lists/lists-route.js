@@ -17,8 +17,7 @@
                 resolve: {
                     store: function (listsService) {
                         return listsService.then(function (module) {
-                            var c_u = current_user.fetch();
-                            module.read({user_id: c_u.id});
+                            module.read({user_id: current_user.fetch().id});
                             return module;
                         });
                     }

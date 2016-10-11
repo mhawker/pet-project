@@ -8,42 +8,31 @@
 (function (define) {
     "use strict";
     define([
-        "angular",
         "app",
         "/app/services/current-user.js",
-        "/app/services/menu.js",
         "/app/services/model-creator.js"
-    ], function (angular, app, current_user, menu) {
+    ], function (app) {
 
-        // hook into the global nav menu
-        app.run(function ($rootScope, $location, $route) {
-            $rootScope.$on("$routeChangeStart", function () {
-                var c_u = current_user.fetch();
-                if (c_u.id) {
-                    menu.add('lists', '/lists', 'My TODO lists');
-                } else {
-                    menu.del('lists');
-                };
-            });
-        });
-        
-        return app.factory("listsService", function ($q, modelCreator) {
+        return app.factory("listsService", function ($q, modelCreator, currentUserService) {
 
             var deferred = $q.defer();
 
             modelCreator.then(function (create_model) {
 
-                var u = current_user.fetch();
+                /** @var object the currently logged in user */
+                var current_user = currentUserService.fetch();
 
                 /** @var Model the to-do list model */
                 var lists_model = create_model("lists", {
                     title: "",
-                    user_id: u.id
+                    user_id: current_user.id
                 });
 
+                // force the model to only fetch records for the current user
                 lists_model.force_params({
-                    user_id: u.id
+                    user_id: current_user.id
                 });
+
                 deferred.resolve(lists_model);
             });
 

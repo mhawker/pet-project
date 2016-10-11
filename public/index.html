@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>AngularJS • TodoMVC</title>
         <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="media/css/index.css">
         <style>
             [ng-cloak] {
@@ -12,7 +13,8 @@
         </style>
     </head>
     <body>
-        <nav id="site-nav"></nav>
+        <h1 class="site-main">todo</h1>
+        <ol id="site-breadcrumb" class="breadcrumb hidden"></ol>
         <div>
             <ng-view/>
         </div>

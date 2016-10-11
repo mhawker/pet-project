@@ -21,8 +21,8 @@
                         return todoService.then(function (module) {
                             // NOTE: $routeParams doesn't seem to work this early
                             module.force_params({
-                                user_id: current_user.fetch().id,
-                                list_id: $route.current.params.list_id
+                                user_id: parseInt(current_user.fetch().id, 10),
+                                list_id: parseInt($route.current.params.list_id)
                             });
                             module.read();
                             return module;

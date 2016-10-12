@@ -1,20 +1,24 @@
-module.exports = function (config) {
-    'use strict';
+/*jslint browser single */
+/*global module */
 
+// Karma configuration
+// Generated on Fri Oct 07 2016 00:06:43 GMT+0200 (CEST)
+
+module.exports = function (config) {
+    "use strict";
     config.set({
-        basePath  : '../../',
-        frameworks: ['jasmine'],
-        reporters : ['kjhtml'],
-        files     : [
-            'public/lib/angular/angular.js',
-            'public/lib/angular-mocks/angular-mocks.js',
-            'public/lib/angular-resource/angular-resource.js',
-            'public/lib/angular-route/angular-route.js',
-            'public/js/**/*.js',
-            'test/unit/**/*.js'
+        basePath: '../..',
+        frameworks: ['jasmine', 'requirejs'],
+        reporters: ['spec', 'kjhtml'],
+        files: [
+            {pattern: 'test/config/test-main.js', cached: false},
+            {pattern: 'public/vendor/**/*.js', included: false, cached: false},
+            {pattern: 'public/app/**/*.js', included: false, cached: false},
+            {pattern: 'test/spec/**/*.js', included: false, cached: false}
         ],
-        autoWatch : true,
-        singleRun : false,
-        browsers  : ['Chrome', 'Firefox']
+        autoWatch: false,
+        singleRun: true,
+        browsers: ['PhantomJS']
     });
 };
+

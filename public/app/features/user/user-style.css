@@ -1,0 +1,23 @@
+#header {
+    padding: 15px 20px;
+}
+
+#header h2 {
+    margin-top:0;
+}
+
+#main {
+    padding:15px 20px;
+}
+
+#register {
+    padding-top:10px;
+}
+
+#feedback {
+    font-size:16px;
+    line-height: 24px;
+    text-align:center;
+    color: red;
+    font-weight:bold;
+}

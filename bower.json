@@ -1,0 +1,21 @@
+{
+  "name": "kreios.todo",
+  "version": "0.1",
+  "main": "index.html",
+  "ignore": [
+    "**/.*",
+    "vendor"
+  ],
+  "dependencies": {
+    "angular": "1.5.8",
+    "angular-mocks": "1.5.8",
+    "angular-resource": "1.5.8",
+    "angular-route": "1.5.8",
+    "jquery": "3.1.1",
+    "bootstrap": "3.3.7",
+    "requirejs": "2.3.2",
+    "requirejs-domready": "latest",
+    "domReady": "requirejs-domready#2.0.1",
+    "font-awesome": "fontawesome#4.6.3"
+  }
+}

@@ -6,33 +6,28 @@
  */
 (function (define) {
     "use strict";
-    define(["angular", "app"], function (angular, app) {
+    define(["app"], function (app) {
 
-        // this is supposed to be a directive... maybe later
-        function feedback(msg) {
-            var el = angular.element(document.querySelector("[id='feedback']"));
-            el.html(msg);
-        }
-
-        app.controller("UserLoginCtrl", function ($scope, $location, store, menuService) {
+        app.controller("UserLoginCtrl", function ($scope, $location, store, menuService, flashService) {
             menuService.breadcrumb([]);
             $scope.submitForm = function () {
-                feedback("Checking...");
-                var u = $scope.user.username;
-                var p = $scope.user.password;
+                var submitted = $scope.user || {};
+                var u = submitted.username;
+                var p = submitted.password;
+                flashService("info", "Checking");
                 if (!u || !p) {
-                    return feedback("Both username and password required");
+                    return flashService("warning", "Both username and password required");
                 }
                 store.checkUsername(u).then(function (exists) {
                     if (!exists) {
-                        return feedback("Username does not exist");
+                        return flashService("warning", "Username does not exist");
                     }
                     store.checkCredentials(u, p).then(function (user) {
                         if (user.id) {
-                            feedback("Authenticated, redirecting");
+                            flashService("success", "You've logged in");
                             $location.path("/");
                         } else {
-                            feedback("Unknown username or password");
+                            flashService("error", "Invalid password");
                         }
                     });
                 });

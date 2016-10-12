@@ -8,7 +8,7 @@
     "use strict";
     define([
         "app",
-        "/app/services/current-user.js"
+        "services/current-user-service"
     ], function (app, current_user) {
         return app.config(function ($routeProvider) {
             var routeConfig = {
@@ -18,7 +18,7 @@
                     store: function ($route, todoService) {
                         // Wait for the model to decide on its persistence
                         // layer then load the entities in the background
-                        return todoService.then(function (module) {
+                        return todoService().then(function (module) {
                             // NOTE: $routeParams doesn't seem to work this early
                             module.force_params({
                                 user_id: parseInt(current_user.fetch().id, 10),

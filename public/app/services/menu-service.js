@@ -7,12 +7,13 @@
 (function (define, document) {
     "use strict";
 
-    define([
-        "app"
-    ], function (app) {
+    define(["app"], function (app) {
 
         /** @var string the id attribute of the breadcrumb */
         var breadcrumb_id = "site-breadcrumb";
+
+        /** @var array the contents of the last breadcrum */
+        var last_links = [];
 
         /**
          * Remove the 'hidden' bootstrap class from an element. Avoids having to
@@ -52,6 +53,10 @@
          */
         function breadcrumb(links) {
             var bc = document.getElementById(breadcrumb_id);
+            last_links = links;
+            if (!bc) {
+                return;
+            }
             while (bc.firstChild) {
                 bc.removeChild(bc.firstChild);
             }
@@ -73,6 +78,10 @@
             li.innerHTML = a.text;
             show(bc);
         }
+
+        breadcrumb.getLast = function () {
+            return last_links;
+        };
 
         /** @var object the module */
         var service = {

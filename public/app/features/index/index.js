@@ -7,8 +7,8 @@
 (function (define) {
     "use strict";
     define([
-        "./index-ctrl.js",
-        "./index-route.js"
+        "./index-ctrl",
+        "./index-route"
     ], function () {
         return undefined;
     });

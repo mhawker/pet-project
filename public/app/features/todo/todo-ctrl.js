@@ -16,8 +16,23 @@
             var todos = $scope.todos = store.getRecords();
             var list_id = parseInt($routeParams.list_id, 10);
 
+            // The list should have been filtered at the router level, but we
+            // need to do it again here incase something went wrong. The wierd
+            // syntax ensures that object associations remain.
+            var todo_unfiltered = todos.splice(0);
+            while (todos.length) {
+                todos.pop();
+            }
+            var todo_unf;
+            while (todo_unfiltered.length) {
+                todo_unf = todo_unfiltered.shift();
+                if (todo_unf.list_id === list_id) {
+                    todos.push(todo_unf);
+                }
+            }
+
             // set up breadcrumb
-            listsService.then(function (lists_model) {
+            listsService().then(function (lists_model) {
                 lists_model.read({id: list_id}).then(function (response) {
                     var list = response.shift();
                     if (!list) {
@@ -56,7 +71,7 @@
 
             $scope.addTodo = function () {
                 var newTodo = {
-                    title : $scope.newTodo.trim(),
+                    title: $scope.newTodo.trim(),
                     completed: false
                 };
 

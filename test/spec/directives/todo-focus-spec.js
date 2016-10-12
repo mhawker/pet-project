@@ -1,5 +1,5 @@
-/*jslint */
-/*global define describe it expect beforeEach inject */
+/*jslint browser multivar */
+/*global define describe it expect beforeEach inject module */
 
 /**
  * The unit test for the on-focus behavior
@@ -10,11 +10,11 @@
         "angular",
         "directives/todo-focus",
         "angularMocks"
-    ], function (angular, todoFocusDirective) {
+    ], function (angular) {
 
         var FILTER_NAME = "todoFocus";
 
-        beforeEach(module('todomvc'));
+        beforeEach(module("todomvc"));
 
         describe(FILTER_NAME, function () {
 
@@ -26,8 +26,8 @@
                 browser = $browser;
             }));
 
-            it('should focus on truthy expression', function () {
-                var el = angular.element('<input todo-focus="focus">');
+            it("should focus on truthy expression", function () {
+                var el = angular.element("<input todo-focus='focus'>");
                 scope.focus = false;
 
                 compile(el)(scope);

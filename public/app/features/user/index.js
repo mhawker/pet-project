@@ -7,12 +7,12 @@
 (function (define) {
     "use strict";
     define([
-        "./user-service.js",
-        "./user-route.js",
-        "./dashboard/user-dashboard-ctrl.js",
-        "./login/user-login-ctrl.js",
-        "./logout/user-logout-ctrl.js",
-        "./register/user-register-ctrl.js"
+        "./user-service",
+        "./user-route",
+        "./dashboard/user-dashboard-ctrl",
+        "./login/user-login-ctrl",
+        "./logout/user-logout-ctrl",
+        "./register/user-register-ctrl"
     ], function () {
         return undefined;
     });

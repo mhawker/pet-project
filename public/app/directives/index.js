@@ -7,8 +7,8 @@
 (function (define) {
     "use strict";
     define([
-        "./todo-escape.js",
-        "./todo-focus.js"
+        "./todo-escape",
+        "./todo-focus"
     ], function () {
         return undefined;
     });

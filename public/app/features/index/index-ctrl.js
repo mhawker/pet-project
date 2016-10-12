@@ -7,8 +7,8 @@
 (function (define) {
     "use strict";
     define(["app"], function (app) {
-        app.controller("IndexCtrl", function ($location, store) {
-            var user = store.loadCurrent();
+        app.controller("IndexCtrl", function ($location, currentUserService) {
+            var user = currentUserService.fetch();
             if (user.id) {
                 $location.path("/user/dashboard");
             } else {

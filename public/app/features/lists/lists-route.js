@@ -8,7 +8,7 @@
     "use strict";
     define([
         "app",
-        "app/services/current-user.js"
+        "services/current-user-service"
     ], function (app, current_user) {
         return app.config(function ($routeProvider) {
             var routeConfig = {
@@ -16,7 +16,7 @@
                 templateUrl: "app/features/lists/lists-view.html",
                 resolve: {
                     store: function (listsService) {
-                        return listsService.then(function (module) {
+                        return listsService().then(function (module) {
                             module.read({user_id: current_user.fetch().id});
                             return module;
                         });

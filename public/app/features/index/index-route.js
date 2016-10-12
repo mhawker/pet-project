@@ -8,20 +8,12 @@
     "use strict";
     define([
         "app",
-        "app/features/user/user-service.js"
+        "features/user/user-service"
     ], function (app) {
         return app.config(function ($routeProvider) {
             $routeProvider.when("/", {
                 controller: "IndexCtrl",
-                templateUrl: "app/features/index/index-view.html",
-                resolve: {
-                    store: function (userService) {
-                        return userService.then(function (module) {
-                            module.loadCurrent();
-                            return module;
-                        });
-                    }
-                }
+                templateUrl: "app/features/index/index-view.html"
             }).otherwise({redirectTo: "/"});
         });
     });

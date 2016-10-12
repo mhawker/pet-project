@@ -13,98 +13,94 @@
     "use strict";
     define([
         "angular",
-        "app",
-        "app/services/current-user.js",
-        "app/services/model-creator.js"
+        "app"
     ], function (angular, app) {
 
         return app.factory("userService", function ($q, modelCreator, currentUserService) {
 
-            var deferred = $q.defer();
+            return function () {
 
-            modelCreator.then(function (create_model) {
+                var deferred = $q.defer();
 
-                /** @var Model the user list item model */
-                var user_model = create_model("user", {
-                    username: ""
-                });
+                modelCreator("user", {username: ""}).then(function (user_model) {
 
-                user_model.loadCurrent = function () {
-                    var records = user_model.getRecords();
-                    var record = currentUserService.fetch();
-                    angular.copy([], records);
-                    records.push(record);
-                    return record;
-                };
+                    user_model.loadCurrent = function () {
+                        var records = user_model.getRecords();
+                        var record = currentUserService.fetch();
+                        angular.copy([], records);
+                        records.push(record);
+                        return record;
+                    };
 
-                user_model.setCurrent = function (user) {
-                    currentUserService.persist(user);
-                    user_model.loadCurrent();
-                };
-
-                /**
-                 * Check if a username exists
-                 *
-                 * @param string username the name to check
-                 * @return promise will receive a boolean
-                 */
-                user_model.checkUsername = function (username) {
-                    var api = user_model.getApi();
-                    return api.query({
-                        username: username
-                    }).then(function (response) {
-                        return response.length === 1;
-                    });
-                };
-
-                /**
-                 * Call back to the storage layer with the user/pass, which the
-                 * storage layer can use to authenticate the user (or not).
-                 *
-                 * @param string username the submitted username
-                 * @param string password the submitted password
-                 */
-                user_model.checkCredentials = function (username, password) {
-                    var api = user_model.getApi();
-                    return api.query({
-                        username: username,
-                        password: password
-                    }).then(function (response) {
-                        var user = {};
-                        if (response.length === 1) {
-                            user = response.shift();
-                        }
+                    user_model.setCurrent = function (user) {
                         currentUserService.persist(user);
-                        return user;
-                    }, function () {
-                        currentUserService.persist({});
-                        return {};
-                    });
-                };
+                        user_model.loadCurrent();
+                    };
 
-                /**
-                 * Call back to the storage layer with a the user/pass, log
-                 * the user in with that user/pass.
-                 *
-                 * @param string username the submitted username
-                 * @param string password the submitted password
-                 */
-                user_model.create = function (username, password) {
-                    return user_model.checkUsername(username).then(function () {
+                    /**
+                     * Check if a username exists
+                     *
+                     * @param string username the name to check
+                     * @return promise will receive a boolean
+                     */
+                    user_model.checkUsername = function (username) {
                         var api = user_model.getApi();
-                        return api.save({
+                        return api.query({
+                            username: username
+                        }).then(function (response) {
+                            return response.length === 1;
+                        });
+                    };
+
+                    /**
+                     * Call back to the storage layer with the user/pass, which the
+                     * storage layer can use to authenticate the user (or not).
+                     *
+                     * @param string username the submitted username
+                     * @param string password the submitted password
+                     */
+                    user_model.checkCredentials = function (username, password) {
+                        var api = user_model.getApi();
+                        return api.query({
                             username: username,
                             password: password
                         }).then(function (response) {
-                            return response;
+                            var user = {};
+                            if (response.length === 1) {
+                                user = response.shift();
+                            }
+                            currentUserService.persist(user);
+                            return user;
+                        }, function () {
+                            currentUserService.persist({});
+                            return {};
                         });
-                    });
-                };
+                    };
 
-                deferred.resolve(user_model);
-            });
+                    /**
+                     * Call back to the storage layer with a the user/pass, log
+                     * the user in with that user/pass.
+                     *
+                     * @param string username the submitted username
+                     * @param string password the submitted password
+                     */
+                    user_model.create = function (username, password) {
+                        return user_model.checkUsername(username).then(function () {
+                            var api = user_model.getApi();
+                            return api.save({
+                                username: username,
+                                password: password
+                            }).then(function (response) {
+                                return response;
+                            });
+                        });
+                    };
 
-            return deferred.promise;
+                    deferred.resolve(user_model);
+                });
+
+                return deferred.promise;
+            };
         });
     });
 }(window.define));

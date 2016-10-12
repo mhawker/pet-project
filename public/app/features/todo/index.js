@@ -7,9 +7,9 @@
 (function (define) {
     "use strict";
     define([
-        "./todo-ctrl.js",
-        "./todo-service.js",
-        "./todo-route.js"
+        "./todo-ctrl",
+        "./todo-service",
+        "./todo-route"
     ], function () {
         return undefined;
     });

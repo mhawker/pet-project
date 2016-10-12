@@ -7,7 +7,7 @@
 (function (define) {
     "use strict";
     define([
-        "./test-meta.js"
+        "./test-meta"
     ], function () {
         return undefined;
     });

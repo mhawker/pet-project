@@ -1,4 +1,4 @@
-/*jslint */
+/*jslint browser */
 /*global define describe it expect beforeEach inject */
 
 /**

@@ -9,11 +9,10 @@
     define([
         "require",
         "angular",
-        "./app.js",
-        "./directives/index.js",
-        "./filters/index.js",
-        "./services/index.js",
-        "./features/index.js"
+        "./directives/index",
+        "./filters/index",
+        "./services/index",
+        "./features/index"
     ], function (require, ng) {
         require(["domReady!"], function (document) {
             ng.bootstrap(document, ["todomvc"]);

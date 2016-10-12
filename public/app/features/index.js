@@ -7,10 +7,10 @@
 (function (define) {
     "use strict";
     define([
-        "./index/index.js",
-        "./user/index.js",
-        "./lists/index.js",
-        "./todo/index.js" // must be last
+        "./index/index",
+        "./user/index",
+        "./lists/index",
+        "./todo/index" // must be last
     ], function () {
         return undefined;
     });

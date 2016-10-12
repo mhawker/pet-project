@@ -7,10 +7,11 @@
 (function (define) {
     "use strict";
     define([
-        "./model-creator.js",
-        "./resource-creator.js",
-        "./menu.js",
-        "./current-user.js"
+        "./model-creator",
+        "./resource-creator",
+        "./menu-service",
+        "./flash-service",
+        "./current-user-service"
     ], function () {
         return undefined;
     });

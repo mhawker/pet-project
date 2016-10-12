@@ -6,35 +6,28 @@
  */
 (function (define) {
     "use strict";
-    define([
-        "angular",
-        "app",
-        "app/services/menu.js"
-    ], function (angular, app, menu) {
+    define(["app"], function (app) {
 
-        // this is supposed to be a directive... maybe later
-        function feedback(msg) {
-            var el = angular.element(document.querySelector("[id='feedback']"));
-            el.html(msg);
-        }
-
-        app.controller("UserRegisterCtrl", function ($scope, $location, store) {
-            menu.breadcrumb([]);
+        app.controller("UserRegisterCtrl", function ($scope, $location, store, menuService, flashService) {
+            menuService.breadcrumb([]);
             $scope.submitForm = function () {
-                feedback("Checking...");
-                var u = $scope.user.username;
-                var p = $scope.user.password;
+                flashService("info", "Checking...");
+                var user = $scope.user || {};
+                var u = user.username;
+                var p = user.password;
                 if (!u || !p) {
-                    return feedback("Both username and password required");
+                    return flashService("warning", "Both username and password required");
                 }
                 store.checkUsername(u).then(function (exists) {
                     if (exists) {
-                        return feedback("Username already exists");
+                        flashService("danger", "Username already exists");
+                    } else {
+                        store.create(u, p).then(function (user) {
+                            flashService("success", "Account created");
+                            store.setCurrent(user);
+                            $location.path("/");
+                        });
                     }
-                    store.create(u, p).then(function (user) {
-                        store.setCurrent(user);
-                        $location.path("/todo");
-                    });
                 });
             };
         });

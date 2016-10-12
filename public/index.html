@@ -14,6 +14,7 @@
     </head>
     <body>
         <h1 class="site-main">todo</h1>
+        <div id="flash-messages"></div>
         <ol id="site-breadcrumb" class="breadcrumb hidden"></ol>
         <div>
             <ng-view/>
@@ -27,4 +28,6 @@
         </footer>
     </body>
     <script src="vendor/requirejs/require.js" data-main="main.js"></script>
+    <script src="vendor/jquery/dist/jquery.min.js" defer></script>
+    <script src="vendor/bootstrap/dist/js/bootstrap.min.js" defer></script>
 </html>

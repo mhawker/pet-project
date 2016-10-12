@@ -9,7 +9,7 @@
     define([
         "angular",
         "app",
-        "./resource-creator.js"
+        "./resource-creator"
     ], function (angular, app) {
 
         /**
@@ -21,6 +21,8 @@
          * @param object api the API, as returned by resource-creator.js
          */
         var Model = function (model_name, model_schema, api) {
+
+            var that = this;
 
             /** @var array a local copy of what's been retrieved from the API for binding */
             var records = [];
@@ -147,18 +149,24 @@
                 forced_params = angular.extend(forced_params, params);
             };
 
+            this.force_values = function (values) {
+                api.forceValues(values);
+                return that.read();
+            };
+
         };
 
         // NOTE: as this module depends on $q and resourceCreator, it cannot be
         // directly returned to RequireJS
         return app.factory("modelCreator", function ($q, resourceCreator) {
-            var deferred = $q.defer();
-            resourceCreator.then(function (create_resource) {
-                deferred.resolve(function (model_name, model_schema) {
-                    return new Model(model_name, model_schema, create_resource(model_name));
+            return function (model_name, model_schema) {
+                var deferred = $q.defer();
+                resourceCreator.getResource().then(function (create_resource) {
+                    var model = new Model(model_name, model_schema, create_resource(model_name));
+                    deferred.resolve(model);
                 });
-            });
-            return deferred.promise;
+                return deferred.promise;
+            };
         });
     });
 }(window.define));

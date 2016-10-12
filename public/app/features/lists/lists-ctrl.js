@@ -10,10 +10,9 @@
     "use strict";
     define([
         "angular",
-        "app",
-        "/app/services/menu.js"
+        "app"
     ], function (angular, app) {
-        app.controller("ListsCtrl", function ($scope, $routeParams, $filter, store, menuService) {
+        app.controller("ListsCtrl", function ($scope, store, menuService) {
             menuService.breadcrumb([
                 {url: "/", text: "Home"},
                 {url: "/lists", text: "My TODO lists"}
@@ -24,16 +23,9 @@
             $scope.newList = "";
             $scope.editedList = null;
 
-            $scope.$watch("lists", function () {
-                $scope.remainingCount = $filter("filter")(lists, {completed: false}).length;
-                $scope.completedCount = lists.length - $scope.remainingCount;
-                $scope.allChecked = !$scope.remainingCount;
-            }, true);
-
             $scope.addList = function () {
                 var newList = {
-                    title    : $scope.newList.trim(),
-                    completed: false
+                    title: $scope.newList.trim()
                 };
                 if (!newList.title) {
                     return;
@@ -71,6 +63,10 @@
                 }
 
                 list.title = list.title.trim();
+
+                if (!list.title && $scope.originalList.title) {
+                    list.title = $scope.originalList.title;
+                }
 
                 if (list.title === $scope.originalList.title) {
                     $scope.editedList = null;

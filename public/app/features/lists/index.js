@@ -7,9 +7,9 @@
 (function (define) {
     "use strict";
     define([
-        "./lists-ctrl.js",
-        "./lists-service.js",
-        "./lists-route.js"
+        "./lists-ctrl",
+        "./lists-service",
+        "./lists-route"
     ], function () {
         return undefined;
     });
